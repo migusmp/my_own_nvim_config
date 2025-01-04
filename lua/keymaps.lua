@@ -124,5 +124,20 @@ vim.keymap.set('n', '<Leader>hn', ':lua require("harpoon.ui").nav_next()<CR>', {
 vim.keymap.set('n', '<Leader>hp', ':lua require("harpoon.ui").nav_prev()<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>ht', ':lua require("harpoon.term").gotoTerminal(1)<CR>', { noremap = true, silent = true })
 
--- Tree nvim plugin keymap
-vim.keymap.set('n', '<Leader>e', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+-- LSP keymaps.
+vim.keymap.set('n', '<leader>gg', '<cmd>lua vim.lsp.buf.hover()<CR>', { desc = "Muestra información sobre el símbolo bajo el cursor" })
+vim.keymap.set('n', '<leader>gd', '<cmd>lua vim.lsp.buf.definition()<CR>', { desc = "Va a la definición del símbolo bajo el cursor" })
+vim.keymap.set('n', '<leader>gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', { desc = "Va a la declaración del símbolo bajo el cursor" })
+vim.keymap.set('n', '<leader>gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', { desc = "Muestra las implementaciones del símbolo bajo el cursor" })
+vim.keymap.set('n', '<leader>gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>', { desc = "Muestra la definición del tipo del símbolo bajo el cursor" })
+vim.keymap.set('n', '<leader>gr', '<cmd>lua vim.lsp.buf.references()<CR>', { desc = "Muestra las referencias del símbolo bajo el cursor" })
+vim.keymap.set('n', '<leader>gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', { desc = "Muestra la ayuda de firma del símbolo bajo el cursor" })
+vim.keymap.set('n', '<leader>rr', '<cmd>lua vim.lsp.buf.rename()<CR>', { desc = "Renombra el símbolo bajo el cursor" })
+vim.keymap.set('n', '<leader>gf', '<cmd>lua vim.lsp.buf.format({async = true})<CR>', { desc = "Formatea el archivo actual (modo normal)" })
+vim.keymap.set('v', '<leader>gf', '<cmd>lua vim.lsp.buf.format({async = true})<CR>', { desc = "Formatea el texto seleccionado (modo visual)" })
+vim.keymap.set('n', '<leader>ga', '<cmd>lua vim.lsp.buf.code_action()<CR>', { desc = "Muestra las acciones de código disponibles" })
+vim.keymap.set('n', '<leader>gl', '<cmd>lua vim.diagnostic.open_float()<CR>', { desc = "Muestra un flotante con los diagnósticos del cursor" })
+vim.keymap.set('n', '<leader>gp', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { desc = "Navega al diagnóstico anterior" })
+vim.keymap.set('n', '<leader>gn', '<cmd>lua vim.diagnostic.goto_next()<CR>', { desc = "Navega al diagnóstico siguiente" })
+vim.keymap.set('n', '<leader>tr', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', { desc = "Muestra los símbolos del documento actual" })
+vim.keymap.set('i', '<C-Space>', '<cmd>lua vim.lsp.buf.completion()<CR>', { desc = "Muestra las sugerencias de autocompletado" })
