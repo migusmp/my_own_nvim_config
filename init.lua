@@ -174,6 +174,35 @@ require('lazy').setup({
             -- Configuración opcional aquí
         end
     },
+    {
+        'rust-lang/rust.vim',
+        ft = "rust",
+        init = function()
+            vim.g.rustfmt_autosave = 1
+        end
+    },
+    {
+        "simrat39/rust-tools.nvim",
+        config = function()
+            require("rust-tools").setup({})
+        end
+    },
+    {
+        'saecki/crates.nvim',
+        ft = { "toml" },
+        config = function()
+            require("crates").setup {
+                completion = {
+                    cmp = {
+                        enabled = true
+                    },
+                },
+            }
+            require('cmp').setup.buffer({
+                sources = { { name = "crates" } }
+            })
+        end
+    },
 })
 
 -- Configuración de LSP y cmp
@@ -221,6 +250,20 @@ require("mason-lspconfig").setup({
             })
             vim.g.zig_fmt_parse_errors = 0
             vim.g.zig_fmt_autosave = 0
+        end,
+
+        denols = function()
+            local nvim_lsp = require('lspconfig')
+            nvim_lsp.denols.setup {
+                on_attach = on_attach,
+                root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc"),
+            }
+
+            nvim_lsp.ts_ls.setup {
+                on_attach = on_attach,
+                root_dir = nvim_lsp.util.root_pattern("package.json"),
+                single_file_support = false
+            }
         end,
 
         -- Configuración de lua_ls

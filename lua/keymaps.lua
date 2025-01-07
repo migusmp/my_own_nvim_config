@@ -123,6 +123,7 @@ vim.keymap.set('n', '<Leader>4', ':lua require("harpoon.ui").nav_file(4)<CR>', {
 vim.keymap.set('n', '<Leader>hn', ':lua require("harpoon.ui").nav_next()<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>hp', ':lua require("harpoon.ui").nav_prev()<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>ht', ':lua require("harpoon.term").gotoTerminal(1)<CR>', { noremap = true, silent = true })
+-- vim.keymap.set('n', '<Leader>ht', ':lua require("harpoon.term").gotoTerminal(1); vim.cmd("startinsert | term tmux")<CR>', { noremap = true, silent = true })
 
 -- LSP keymaps.
 vim.keymap.set('n', '<leader>gg', '<cmd>lua vim.lsp.buf.hover()<CR>', { desc = "Muestra información sobre el símbolo bajo el cursor" })
