@@ -281,6 +281,41 @@ require("mason-lspconfig").setup({
                 }
             }
         end,
+
+        -- Configuracion de jdtls
+        ["jdtls"] = function()
+            local lspconfig = require("lspconfig")
+
+            -- Configuración básica para jdtls
+            lspconfig.jdtls.setup({
+                capabilities = capabilities, -- Asegúrate de definir o importar 'capabilities' previamente si es necesario
+                settings = {
+                    java = {
+                        format = {
+                            enabled = true, -- Habilitar formato automático
+                        },
+                        contentProvider = {
+                            preferred = "fernflower", -- Establecer el descompilador preferido
+                        },
+                        build = {
+                            autoBuild = false, -- Deshabilitar la construcción automática del proyecto
+                            autoRefresh = false, -- Evitar refrescar constantemente el proyecto
+                        },
+                        errors = {
+                            enabled = true,     -- Asegurar que los errores se linteren
+                            validation = "interactive", -- Puede hacer que se validen solo cuando se le indica
+                        },
+                    },
+                },
+                init_options = {
+                    bundles = {}, -- Aquí podrías agregar los "bundles" necesarios si tienes alguno
+                },
+                root_dir = vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw", "pom.xml", "build.gradle" },
+                    { upward = true })[1]),
+                cmd = { vim.fn.stdpath("data") .. "/mason/bin/jdtls" }, -- Asegúrate de tener la ruta correcta a jdtls
+                on_attach = on_attach,                          -- Aquí debes definir la función `on_attach` si no lo has hecho
+            })
+        end,
     }
 })
 
