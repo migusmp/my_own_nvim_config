@@ -22,7 +22,7 @@ require('lazy').setup({
                 -- A list of parser names, or "all"
                 ensure_installed = {
                     "vimdoc", "javascript", "typescript", "c", "lua", "rust",
-                    "jsdoc", "bash", "cpp",
+                    "jsdoc", "bash", "cpp", "java",
                 },
 
                 -- Install parsers synchronously (only applied to `ensure_installed`)
@@ -39,29 +39,31 @@ require('lazy').setup({
                 highlight = {
                     -- `false` will disable the whole extension
                     enable = true,
-                    disable = function(lang, buf)
-                        if lang == "html" then
-                            print("disabled")
-                            return true
-                        end
-
-                        local max_filesize = 100 * 1024 -- 100 KB
-                        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-                        if ok and stats and stats.size > max_filesize then
-                            vim.notify(
-                                "File larger than 100KB treesitter disabled for performance",
-                                vim.log.levels.WARN,
-                                { title = "Treesitter" }
-                            )
-                            return true
-                        end
-                    end,
-
+                    additional_vim_regex_highlighting = false,
+                    -- disable = function(lang, buf)
+                    --     if lang == "html" then
+                    --         print("disabled")
+                    --         return true
+                    --     end
+                    --
+                    --     local max_filesize = 100 * 1024 -- 100 KB
+                    --     local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+                    --     if ok and stats and stats.size > max_filesize then
+                    --         vim.notify(
+                    --             "File larger than 100KB treesitter disabled for performance",
+                    --             vim.log.levels.WARN,
+                    --             { title = "Treesitter" }
+                    --         )
+                    --         return true
+                    --     end
+                    -- end,
+                    --
                     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
                     -- Set this to `true` if you depend on "syntax" being enabled (like for indentation).
                     -- Using this option may slow down your editor, and you may see some duplicate highlights.
                     -- Instead of true it can also be a list of languages
-                    additional_vim_regex_highlighting = { "markdown" },
+
+                    -- additional_vim_regex_highlighting = { "markdown" },
                 },
             })
 
@@ -117,6 +119,112 @@ require('lazy').setup({
             ColorMyPencils();
         end
     },
+    -- Tema de vscode para archivos java.
+    -- {
+    --     'Mofiqul/vscode.nvim',
+    --     name = "vscode",
+    --     config = function()
+    --         -- Aplica el tema Cyberdream solo para archivos Java
+    --         vim.api.nvim_create_autocmd("FileType", {
+    --             pattern = "java",                                -- Se aplica solo a archivos con el tipo "java"
+    --             callback = function()
+    --                 vim.cmd("colorscheme vscode")            -- Aplica el tema Cyberdream
+    --                 -- Elimina el fondo del tema Cyberdream
+    --                 vim.cmd("highlight Normal guibg=none")       -- Pone el fondo transparente
+    --                 vim.cmd("highlight NonText guibg=none")      -- Elimina fondo en la columna de texto no visible
+    --                 vim.cmd("highlight NormalNC guibg=none")     -- Elimina fondo en ventanas no activas
+    --                 vim.cmd("highlight VertSplit guibg=none")    -- Elimina el fondo del separador vertical
+    --                 vim.cmd("highlight SignColumn guibg=none")   -- Elimina el fondo de la columna de señales (gutter)
+    --                 vim.cmd("highlight LineNr guibg=none")       -- Elimina el fondo de los números de línea
+    --                 vim.cmd("highlight CursorLineNr guibg=none") -- Elimina el fondo del número de línea del cursor
+    --                 vim.cmd("highlight Pmenu guibg=none")        -- Elimina el fondo del menú de autocompletado
+    --                 vim.cmd("highlight PmenuSbar guibg=none")    -- Elimina el fondo de la barra de desplazamiento del menú
+    --                 vim.cmd("highlight PmenuSel guibg=none")     -- Elimina el fondo de la selección en el menú
+    --                 vim.cmd("highlight StatusLine guibg=none")   -- Elimina el fondo de la línea de estado
+    --                 vim.cmd("highlight StatusLineNC guibg=none") -- Elimina el fondo de la línea de estado en ventanas no activas
+    --             end,
+    --         })
+    --     end,
+    -- },
+    -- Tema de catpuccin para java.
+    -- {
+    --     "catppuccin/nvim",
+    --     name = "catppuccin",
+    --     config = function()
+    --         -- Aplica el tema Cyberdream solo para archivos Java
+    --         vim.api.nvim_create_autocmd("FileType", {
+    --             pattern = "java",                                -- Se aplica solo a archivos con el tipo "java"
+    --             callback = function()
+    --                 vim.cmd("colorscheme catppuccin")            -- Aplica el tema Cyberdream
+    --                 -- Elimina el fondo del tema Cyberdream
+    --                 vim.cmd("highlight Normal guibg=none")       -- Pone el fondo transparente
+    --                 vim.cmd("highlight NonText guibg=none")      -- Elimina fondo en la columna de texto no visible
+    --                 vim.cmd("highlight NormalNC guibg=none")     -- Elimina fondo en ventanas no activas
+    --                 vim.cmd("highlight VertSplit guibg=none")    -- Elimina el fondo del separador vertical
+    --                 vim.cmd("highlight SignColumn guibg=none")   -- Elimina el fondo de la columna de señales (gutter)
+    --                 vim.cmd("highlight LineNr guibg=none")       -- Elimina el fondo de los números de línea
+    --                 vim.cmd("highlight CursorLineNr guibg=none") -- Elimina el fondo del número de línea del cursor
+    --                 vim.cmd("highlight Pmenu guibg=none")        -- Elimina el fondo del menú de autocompletado
+    --                 vim.cmd("highlight PmenuSbar guibg=none")    -- Elimina el fondo de la barra de desplazamiento del menú
+    --                 vim.cmd("highlight PmenuSel guibg=none")     -- Elimina el fondo de la selección en el menú
+    --                 vim.cmd("highlight StatusLine guibg=none")   -- Elimina el fondo de la línea de estado
+    --                 vim.cmd("highlight StatusLineNC guibg=none") -- Elimina el fondo de la línea de estado en ventanas no activas
+    --             end,
+    --         })
+    --     end,
+    -- },
+    -- Configuración para onedarkpro
+    {
+        "olimorris/onedarkpro.nvim",
+        config = function()
+            -- Aplica el tema Cyberdream solo para archivos Java
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = "java",                                -- Se aplica solo a archivos con el tipo "java"
+                callback = function()
+                    vim.cmd("colorscheme onedark_dark")          -- Aplica el tema Cyberdream
+                    -- Elimina el fondo del tema Cyberdream
+                    vim.cmd("highlight Normal guibg=none")       -- Pone el fondo transparente
+                    vim.cmd("highlight NonText guibg=none")      -- Elimina fondo en la columna de texto no visible
+                    vim.cmd("highlight NormalNC guibg=none")     -- Elimina fondo en ventanas no activas
+                    vim.cmd("highlight VertSplit guibg=none")    -- Elimina el fondo del separador vertical
+                    vim.cmd("highlight SignColumn guibg=none")   -- Elimina el fondo de la columna de señales (gutter)
+                    vim.cmd("highlight LineNr guibg=none")       -- Elimina el fondo de los números de línea
+                    vim.cmd("highlight CursorLineNr guibg=none") -- Elimina el fondo del número de línea del cursor
+                    vim.cmd("highlight Pmenu guibg=none")        -- Elimina el fondo del menú de autocompletado
+                    vim.cmd("highlight PmenuSbar guibg=none")    -- Elimina el fondo de la barra de desplazamiento del menú
+                    vim.cmd("highlight PmenuSel guibg=none")     -- Elimina el fondo de la selección en el menú
+                    vim.cmd("highlight StatusLine guibg=none")   -- Elimina el fondo de la línea de estado
+                    vim.cmd("highlight StatusLineNC guibg=none") -- Elimina el fondo de la línea de estado en ventanas no activas
+                end,
+            })
+        end,
+    },
+    -- Tema para archivos Java (Cyberdream)
+    -- {
+    --     "scottmckendry/cyberdream.nvim",
+    --     config = function()
+    --         -- Aplica el tema Cyberdream solo para archivos Java
+    --         vim.api.nvim_create_autocmd("FileType", {
+    --             pattern = "java",                                -- Se aplica solo a archivos con el tipo "java"
+    --             callback = function()
+    --                 vim.cmd("colorscheme cyberdream")            -- Aplica el tema Cyberdream
+    --                 -- Elimina el fondo del tema Cyberdream
+    --                 vim.cmd("highlight Normal guibg=none")       -- Pone el fondo transparente
+    --                 vim.cmd("highlight NonText guibg=none")      -- Elimina fondo en la columna de texto no visible
+    --                 vim.cmd("highlight NormalNC guibg=none")     -- Elimina fondo en ventanas no activas
+    --                 vim.cmd("highlight VertSplit guibg=none")    -- Elimina el fondo del separador vertical
+    --                 vim.cmd("highlight SignColumn guibg=none")   -- Elimina el fondo de la columna de señales (gutter)
+    --                 vim.cmd("highlight LineNr guibg=none")       -- Elimina el fondo de los números de línea
+    --                 vim.cmd("highlight CursorLineNr guibg=none") -- Elimina el fondo del número de línea del cursor
+    --                 vim.cmd("highlight Pmenu guibg=none")        -- Elimina el fondo del menú de autocompletado
+    --                 vim.cmd("highlight PmenuSbar guibg=none")    -- Elimina el fondo de la barra de desplazamiento del menú
+    --                 vim.cmd("highlight PmenuSel guibg=none")     -- Elimina el fondo de la selección en el menú
+    --                 vim.cmd("highlight StatusLine guibg=none")   -- Elimina el fondo de la línea de estado
+    --                 vim.cmd("highlight StatusLineNC guibg=none") -- Elimina el fondo de la línea de estado en ventanas no activas
+    --             end,
+    --         })
+    --     end,
+    -- },
     {
         "ThePrimeagen/harpoon",
         dependencies = {
