@@ -119,6 +119,81 @@ require('lazy').setup({
             ColorMyPencils();
         end
     },
+    {
+        "ellisonleao/gruvbox.nvim",
+        config = function()
+            -- Aplica el tema Cyberdream solo para archivos Java
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = "c",                                   -- Se aplica solo a archivos con el tipo "java"
+                callback = function()
+                    vim.cmd("colorscheme gruvbox")               -- Aplica el tema Cyberdream
+                    -- Elimina el fondo del tema Cyberdream
+                    vim.cmd("highlight Normal guibg=none")       -- Pone el fondo transparente
+                    vim.cmd("highlight NonText guibg=none")      -- Elimina fondo en la columna de texto no visible
+                    vim.cmd("highlight NormalNC guibg=none")     -- Elimina fondo en ventanas no activas
+                    vim.cmd("highlight VertSplit guibg=none")    -- Elimina el fondo del separador vertical
+                    vim.cmd("highlight SignColumn guibg=none")   -- Elimina el fondo de la columna de señales (gutter)
+                    vim.cmd("highlight LineNr guibg=none")       -- Elimina el fondo de los números de línea
+                    vim.cmd("highlight CursorLineNr guibg=none") -- Elimina el fondo del número de línea del cursor
+                    -- vim.cmd("highlight Pmenu guibg=none")        -- Elimina el fondo del menú de autocompletado
+                    -- vim.cmd("highlight PmenuSbar guibg=none")    -- Elimina el fondo de la barra de desplazamiento del menú
+                    -- vim.cmd("highlight PmenuSel guibg=none")     -- Elimina el fondo de la selección en el menú
+                    vim.cmd("highlight StatusLine guibg=none")   -- Elimina el fondo de la línea de estado
+                    vim.cmd("highlight StatusLineNC guibg=none") -- Elimina el fondo de la línea de estado en ventanas no activas
+                end,
+            })
+        end,
+    },
+    {
+        "ellisonleao/gruvbox.nvim",
+        config = function()
+            -- Aplica el tema Cyberdream solo para archivos Java
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = { "c", "zig", "cpp"}, -- Se aplica solo a archivos con el tipo "zig"
+                callback = function()
+                    require("gruvbox").setup({
+                        terminal_colors = true, -- add neovim terminal colors
+                        undercurl = false,
+                        underline = false,
+                        bold = false,
+                        italic = {
+                            strings = false,
+                            emphasis = false,
+                            comments = false,
+                            operators = false,
+                            folds = false,
+                        },
+                        strikethrough = true,
+                        invert_selection = false,
+                        invert_signs = false,
+                        invert_tabline = false,
+                        invert_intend_guides = false,
+                        inverse = true, -- invert background for search, diffs, statuslines and errors
+                        contrast = "soft", -- can be "hard", "soft" or empty string
+                        palette_overrides = {
+                        },
+                        overrides = {},
+                        dim_inactive = false,
+                        transparent_mode = false,
+                    })
+                    vim.cmd("colorscheme gruvbox")               -- Aplica el tema Cyberdream
+                    -- Elimina el fondo del tema Cyberdream
+                    -- vim.cmd("highlight Normal guibg=none")       -- Pone el fondo transparente
+                    -- vim.cmd("highlight NonText guibg=none")      -- Elimina fondo en la columna de texto no visible
+                    -- vim.cmd("highlight NormalNC guibg=none")     -- Elimina fondo en ventanas no activas
+                    -- vim.cmd("highlight VertSplit guibg=none")    -- Elimina el fondo del separador vertical
+                    -- vim.cmd("highlight SignColumn guibg=none")   -- Elimina el fondo de la columna de señales (gutter)
+                    -- vim.cmd("highlight LineNr guibg=none")       -- Elimina el fondo de los números de línea
+                    -- vim.cmd("highlight CursorLineNr guibg=none") -- Elimina el fondo del número de línea del cursor
+                    -- -- vim.cmd("highlight Pmenu guibg=none")        -- Elimina el fondo del menú de autocompletado
+                    -- -- vim.cmd("highlight PmenuSbar guibg=none")    -- Elimina el fondo de la barra de desplazamiento del menú
+                    -- -- vim.cmd("highlight PmenuSel guibg=none")     -- Elimina el fondo de la selección en el menú
+                    -- vim.cmd("highlight StatusLine guibg=none")   -- Elimina el fondo de la línea de estado
+                    -- vim.cmd("highlight StatusLineNC guibg=none") -- Elimina el fondo de la línea de estado en ventanas no activas
+                end,
+            })
+        end,
+    },
     -- Tema de vscode para archivos java.
     -- {
     --     'Mofiqul/vscode.nvim',
@@ -190,9 +265,9 @@ require('lazy').setup({
                     vim.cmd("highlight SignColumn guibg=none")   -- Elimina el fondo de la columna de señales (gutter)
                     vim.cmd("highlight LineNr guibg=none")       -- Elimina el fondo de los números de línea
                     vim.cmd("highlight CursorLineNr guibg=none") -- Elimina el fondo del número de línea del cursor
-                    vim.cmd("highlight Pmenu guibg=none")        -- Elimina el fondo del menú de autocompletado
-                    vim.cmd("highlight PmenuSbar guibg=none")    -- Elimina el fondo de la barra de desplazamiento del menú
-                    vim.cmd("highlight PmenuSel guibg=none")     -- Elimina el fondo de la selección en el menú
+                    -- vim.cmd("highlight Pmenu guibg=none")        -- Elimina el fondo del menú de autocompletado
+                    -- vim.cmd("highlight PmenuSbar guibg=none")    -- Elimina el fondo de la barra de desplazamiento del menú
+                    -- vim.cmd("highlight PmenuSel guibg=none")     -- Elimina el fondo de la selección en el menú
                     vim.cmd("highlight StatusLine guibg=none")   -- Elimina el fondo de la línea de estado
                     vim.cmd("highlight StatusLineNC guibg=none") -- Elimina el fondo de la línea de estado en ventanas no activas
                 end,
@@ -380,6 +455,9 @@ require('lazy').setup({
             )
         end
     },
+    {
+        'rafamadriz/friendly-snippets',
+    },
 })
 
 -- Configuración de LSP y cmp
@@ -463,39 +541,26 @@ require("mason-lspconfig").setup({
         ["jdtls"] = function()
             local lspconfig = require("lspconfig")
 
-            -- Configuración básica para jdtls
             lspconfig.jdtls.setup({
-                capabilities = capabilities, -- Asegúrate de definir o importar 'capabilities' previamente si es necesario
+                capabilities = capabilities,
                 settings = {
                     java = {
-                        format = {
-                            enabled = true, -- Habilitar formato automático
-                        },
-                        contentProvider = {
-                            preferred = "fernflower", -- Establecer el descompilador preferido
-                        },
-                        build = {
-                            autoBuild = true,   -- Deshabilitar la construcción automática del proyecto
-                            autoRefresh = true, -- Evitar refrescar constantemente el proyecto
-                        },
-                        errors = {
-                            enabled = true, -- Asegurar que los errores se linteren
-                            -- validation = "interactive", -- Puede hacer que se validen solo cuando se le indica
-                        },
+                        format = { enabled = true },
+                        contentProvider = { preferred = "fernflower" },
+                        build = { autoBuild = true, autoRefresh = true },
+                        errors = { enabled = true },
                         signatureHelp = { enabled = true },
                         import = { enabled = true },
                         rename = { enabled = true },
                     },
                 },
-                init_options = {
-                    bundles = {}, -- Aquí podrías agregar los "bundles" necesarios si tienes alguno
-                },
-                root_dir = vim.fs.dirname(vim.fs.find({ "gradlew", ".git", "mvnw", "pom.xml", "build.gradle" },
-                    { upward = true })[1]),
-                cmd = { vim.fn.stdpath("data") .. "/mason/bin/jdtls" }, -- Asegúrate de tener la ruta correcta a jdtls
-                on_attach = on_attach,                                  -- Aquí debes definir la función `on_attach` si no lo has hecho
+                init_options = { bundles = {} },
+                -- root_dir = vim.fs.dirname(vim.fs.find({ "pom.xml", "build.gradle", ".git" }, { upward = true })[1]),
+                root_dir = vim.fn.getcwd(),
+                cmd = { vim.fn.stdpath("data") .. "/mason/bin/jdtls" },
+                on_attach = on_attach,
             })
-        end,
+        end
     }
 })
 
