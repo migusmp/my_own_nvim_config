@@ -22,7 +22,7 @@ require('lazy').setup({
                 -- A list of parser names, or "all"
                 ensure_installed = {
                     "vimdoc", "javascript", "typescript", "c", "lua", "rust",
-                    "jsdoc", "bash", "cpp", "java",
+                    "jsdoc", "bash", "cpp", "java", "xml",
                 },
 
                 -- Install parsers synchronously (only applied to `ensure_installed`)
@@ -537,7 +537,7 @@ require("mason-lspconfig").setup({
             }
         end,
 
-        -- Configuracion de jdtls
+        -- Configuracion de jdtl
         ["jdtls"] = function()
             local lspconfig = require("lspconfig")
 
