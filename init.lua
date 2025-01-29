@@ -149,7 +149,7 @@ require('lazy').setup({
         config = function()
             -- Aplica el tema Cyberdream solo para archivos Java
             vim.api.nvim_create_autocmd("FileType", {
-                pattern = { "c", "zig", "cpp"}, -- Se aplica solo a archivos con el tipo "zig"
+                pattern = { "c", "zig", "cpp" }, -- Se aplica solo a archivos con el tipo "zig"
                 callback = function()
                     require("gruvbox").setup({
                         terminal_colors = true, -- add neovim terminal colors
@@ -168,7 +168,7 @@ require('lazy').setup({
                         invert_signs = false,
                         invert_tabline = false,
                         invert_intend_guides = false,
-                        inverse = true, -- invert background for search, diffs, statuslines and errors
+                        inverse = true,    -- invert background for search, diffs, statuslines and errors
                         contrast = "soft", -- can be "hard", "soft" or empty string
                         palette_overrides = {
                         },
@@ -176,7 +176,7 @@ require('lazy').setup({
                         dim_inactive = false,
                         transparent_mode = false,
                     })
-                    vim.cmd("colorscheme gruvbox")               -- Aplica el tema Cyberdream
+                    vim.cmd("colorscheme gruvbox") -- Aplica el tema Cyberdream
                     -- Elimina el fondo del tema Cyberdream
                     -- vim.cmd("highlight Normal guibg=none")       -- Pone el fondo transparente
                     -- vim.cmd("highlight NonText guibg=none")      -- Elimina fondo en la columna de texto no visible
@@ -491,21 +491,21 @@ require("mason-lspconfig").setup({
         end,
 
         -- Configuración especial para ZLS (Zig)
-        zls = function()
-            local lspconfig = require("lspconfig")
-            lspconfig.zls.setup({
-                root_dir = lspconfig.util.root_pattern(".git", "build.zig", "zls.json"),
-                settings = {
-                    zls = {
-                        enable_inlay_hints = true,
-                        enable_snippets = true,
-                        warn_style = true,
-                    },
-                },
-            })
-            vim.g.zig_fmt_parse_errors = 0
-            vim.g.zig_fmt_autosave = 0
-        end,
+        -- zls = function()
+        --     local lspconfig = require("lspconfig")
+        --     lspconfig.zls.setup({
+        --         root_dir = lspconfig.util.root_pattern(".git", "build.zig", "zls.json"),
+        --         settings = {
+        --             zls = {
+        --                 enable_inlay_hints = true,
+        --                 enable_snippets = true,
+        --                 warn_style = true,
+        --             },
+        --         },
+        --     })
+        --     vim.g.zig_fmt_parse_errors = 0
+        --     vim.g.zig_fmt_autosave = 0
+        -- end,
 
         denols = function()
             local nvim_lsp = require('lspconfig')
@@ -560,7 +560,43 @@ require("mason-lspconfig").setup({
                 cmd = { vim.fn.stdpath("data") .. "/mason/bin/jdtls" },
                 on_attach = on_attach,
             })
-        end
+        end,
+
+        -- Configuracion de zls
+        ["zls"] = function()
+            local lspconfig = require("lspconfig")
+            lspconfig.zls.setup({
+                cmd = { "zls" },
+                filetypes = { "zig" },
+                -- root_dir = lspconfig.util.root_pattern(".git"),
+                capabilities = capabilities,
+                settings = {
+                    zls = {
+                        enable_autofix = false,
+                        warn_style = true,
+                        warn_unused = true,
+                        enable_inlay_hints = true,
+                        enable_snippets = true,
+                        diagnostics = {
+                            enable = true,
+                        }
+                    },
+                },
+                on_attach = function(client, bufnr)
+                    -- Habilitar diagnósticos en tiempo real
+                    client.server_capabilities.documentFormattingProvider = true
+                    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+                        vim.lsp.diagnostic.on_publish_diagnostics,
+                        {
+                            underline = true,
+                            virtual_text = { spacing = 4, prefix = "●" },
+                            signs = true,
+                            update_in_insert = false,
+                        }
+                    )
+                end,
+            })
+        end,
     }
 })
 
