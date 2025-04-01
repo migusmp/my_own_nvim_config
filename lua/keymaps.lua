@@ -142,3 +142,7 @@ vim.keymap.set('n', '<leader>gp', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { d
 vim.keymap.set('n', '<leader>gn', '<cmd>lua vim.diagnostic.goto_next()<CR>', { desc = "Navega al diagnóstico siguiente" })
 vim.keymap.set('n', '<leader>tr', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', { desc = "Muestra los símbolos del documento actual" })
 vim.keymap.set('i', '<C-Space>', '<cmd>lua vim.lsp.buf.completion()<CR>', { desc = "Muestra las sugerencias de autocompletado" })
+
+-- GENERATE GETTERS AND SETTERS IN JAVA.
+vim.api.nvim_set_keymap('n', '<leader>ggs', ':GenGetSet<CR>', { noremap = true, silent = true })
+
