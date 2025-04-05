@@ -22,7 +22,7 @@ require('lazy').setup({
                 -- A list of parser names, or "all"
                 ensure_installed = {
                     "vimdoc", "javascript", "typescript", "c", "lua", "rust",
-                    "jsdoc", "bash", "cpp", "java", "zig", "nasm", "asm"
+                    "jsdoc", "bash", "cpp", "java", "zig", "nasm", "asm", "php",
                 },
 
                 -- Install parsers synchronously (only applied to `ensure_installed`)
@@ -569,7 +569,6 @@ require("mason-lspconfig").setup({
                 capabilities = capabilities
             }
         end,
-
         -- Configuración especial para ZLS (Zig)
         ["zls"] = function()
             local lspconfig = require("lspconfig")
@@ -652,6 +651,69 @@ require("mason-lspconfig").setup({
         --         on_attach = on_attach,
         --     })
         -- end
+    }
+})
+
+require("lspconfig").intelephense.setup({
+    capabilities = capabilities,
+    init_options = {
+        licenceKey = nil, -- Clave de licencia si tienes versión premium
+        -- Opciones de diagnóstico (puedes ajustar según necesidades)
+        diagnostics = {
+            enable = true,
+            undefinedTypes = true,
+            undefinedFunctions = true,
+            undefinedConstants = true,
+            undefinedClassConstants = true,
+            undefinedMethods = true,
+            undefinedProperties = true,
+            undefinedVariables = true,
+        }
+    },
+    root_dir = function(fname)
+        return require("lspconfig.util").root_pattern(
+            "composer.json",
+            ".git",
+            "index.php"
+        )(fname) or vim.fn.getcwd()
+    end,
+    on_attach = function(client, bufnr)
+        -- Intelephense tampoco soporta formateo nativo
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
+
+        -- Keymaps específicos para PHP
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to definition" })
+        vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = bufnr, desc = "Go to references" })
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
+
+        -- Configurar formateo externo (descomenta si usas conform.nvim)
+        -- vim.keymap.set('n', '<leader>pf', function()
+        --     require("conform").format({
+        --         lsp_fallback = true,
+        --         async = true,
+        --         timeout_ms = 1000,
+        --     })
+        -- end, { buffer = bufnr, desc = "[P]HP [F]ormat" })
+    end,
+    settings = {
+        intelephense = {
+            environment = {
+                includePaths = { "/usr/include/php" } -- Rutas para includes
+            },
+            files = {
+                maxSize = 5000000 -- Tamaño máximo de archivo (5MB)
+            },
+            stubs = {             -- Stubs para funciones internas de PHP
+                "apache", "bcmath", "bz2", "calendar", "core", "curl",
+                "date", "dom", "fileinfo", "filter", "gd", "gettext",
+                "hash", "iconv", "imap", "intl", "json", "ldap", "mbstring",
+                "mcrypt", "mysql", "mysqli", "password", "pcre", "PDO",
+                "pdo_mysql", "Phar", "posix", "readline", "Reflection",
+                "session", "SimpleXML", "sockets", "sodium", "SPL", "sqlite3",
+                "standard", "superglobals", "tokenizer", "xml", "zip"
+            }
+        }
     }
 })
 
@@ -762,10 +824,23 @@ vim.api.nvim_create_user_command("GenGetSet", generate_getter_setter, {})
 require("conform").setup({
     formatters_by_ft = {
         cpp = { "clang_format" }, -- Asegúrate de tenerlo instalado
+        php = { "php_cs_fixer" },
     },
     format_on_save = {
         timeout_ms = 500,
         lsp_fallback = true,
+    },
+    formatters = {
+        php_cs_fixer = {
+            command = "php-cs-fixer",
+            args = { "fix", "$FILENAME" },
+            cwd = require("conform.util").root_file({
+                ".php-cs-fixer.php",
+                ".php-cs-fixer.dist.php",
+                "composer.json",
+                ".git"
+            }),
+        },
     },
 })
 
