@@ -144,56 +144,40 @@ require('lazy').setup({
     --         })
     --     end,
     -- },
-    {
-        "ellisonleao/gruvbox.nvim",
-        config = function()
-            -- Aplica el tema Cyberdream solo para archivos Java
-            vim.api.nvim_create_autocmd("FileType", {
-                pattern = { "zig" }, -- Se aplica solo a archivos con el tipo "zig"
-                callback = function()
-                    require("gruvbox").setup({
-                        terminal_colors = true, -- add neovim terminal colors
-                        undercurl = false,
-                        underline = false,
-                        bold = false,
-                        italic = {
-                            strings = false,
-                            emphasis = false,
-                            comments = false,
-                            operators = false,
-                            folds = false,
-                        },
-                        strikethrough = true,
-                        invert_selection = false,
-                        invert_signs = false,
-                        invert_tabline = false,
-                        invert_intend_guides = false,
-                        inverse = true,    -- invert background for search, diffs, statuslines and errors
-                        contrast = "soft", -- can be "hard", "soft" or empty string
-                        palette_overrides = {
-                        },
-                        overrides = {},
-                        dim_inactive = false,
-                        transparent_mode = false,
-                    })
-                    vim.cmd("colorscheme gruvbox") -- Aplica el tema Cyberdream
-                    -- Elimina el fondo del tema Cyberdream
-                    -- vim.cmd("highlight Normal guibg=none")       -- Pone el fondo transparente
-                    -- vim.cmd("highlight NonText guibg=none")      -- Elimina fondo en la columna de texto no visible
-                    -- vim.cmd("highlight NormalNC guibg=none")     -- Elimina fondo en ventanas no activas
-                    -- vim.cmd("highlight VertSplit guibg=none")    -- Elimina el fondo del separador vertical
-                    -- vim.cmd("highlight SignColumn guibg=none")   -- Elimina el fondo de la columna de señales (gutter)
-                    -- vim.cmd("highlight LineNr guibg=none")       -- Elimina el fondo de los números de línea
-                    -- vim.cmd("highlight CursorLineNr guibg=none") -- Elimina el fondo del número de línea del cursor
-                    -- -- vim.cmd("highlight Pmenu guibg=none")        -- Elimina el fondo del menú de autocompletado
-                    -- -- vim.cmd("highlight PmenuSbar guibg=none")    -- Elimina el fondo de la barra de desplazamiento del menú
-                    -- -- vim.cmd("highlight PmenuSel guibg=none")     -- Elimina el fondo de la selección en el menú
-                    -- vim.cmd("highlight StatusLine guibg=none")   -- Elimina el fondo de la línea de estado
-                    -- vim.cmd("highlight StatusLineNC guibg=none") -- Elimina el fondo de la línea de estado en ventanas no activas
-                end,
-            })
-        end,
-    },
+    -- {
+    --     'sainnhe/gruvbox-material',
+    --     config = function()
+    --         -- Aplica el tema Cyberdream solo para archivos Java
+    --         -- Configura el tema directamente con las opciones deseadas
+    --         vim.g.gruvbox_material_contrast = 'soft'        -- Puede ser 'hard', 'medium' o 'soft'
+    --         vim.g.gruvbox_material_transparent_mode = false -- Activa o desactiva el modo transparente
+    --
+    --         -- Aplica el tema
+    --         vim.cmd("colorscheme gruvbox-material")
+    --         vim.api.nvim_create_autocmd("FileType", {
+    --             pattern = { "zig" }, -- Se aplica solo a archivos con el tipo "zig"
+    --             callback = function()
+    --                 -- require("gruvbox-material").setup({
+    --                 --
+    --                 --
+    --                 -- })
+    --                 vim.cmd("colorscheme gruvbox-material")
+    --                 -- vim.cmd("highlight Normal guibg=none")       -- Pone el fondo transparente
+    --                 -- vim.cmd("highlight NonText guibg=none")      -- Elimina fondo en la columna de texto no visible
+    --                 -- vim.cmd("highlight NormalNC guibg=none")     -- Elimina fondo en ventanas no activas
+    --                 -- vim.cmd("highlight VertSplit guibg=none")    -- Elimina el fondo del separador vertical
+    --                 -- vim.cmd("highlight SignColumn guibg=none")   -- Elimina el fondo de la columna de señales (gutter)
+    --                 -- vim.cmd("highlight LineNr guibg=none")       -- Elimina el fondo de los números de línea
+    --                 -- vim.cmd("highlight CursorLineNr guibg=none") -- Elimina el fondo del número de línea del cursor
+    --                 -- -- vim.cmd("highlight Pmenu guibg=none")        -- Elimina el fondo del menú de autocompletado
+    --                 -- -- vim.cmd("highlight PmenuSbar guibg=none")    -- Elimina el fondo de la barra de desplazamiento del menú
+    --                 -- -- vim.cmd("highlight PmenuSel guibg=none")     -- Elimina el fondo de la selección en el menú
+    --                 -- vim.cmd("highlight StatusLine guibg=none")   -- Elimina el fondo de la línea de estado
+    --                 -- vim.cmd("highlight StatusLineNC guibg=none") -- Elimina el fondo de la línea de estado en ventanas no activas
+    --             end,
+    --         })
+    --     end,
+    -- },
     -- Tema de vscode para archivos java.
     -- {
     --     'Mofiqul/vscode.nvim',
@@ -223,36 +207,15 @@ require('lazy').setup({
     -- },
     {
         'morhetz/gruvbox',
-        name = "gruvboxnuevo",
         config = function()
+            -- Configura el tema con variables globales (forma correcta para 'morhetz/gruvbox')
+            vim.g.gruvbox_contrast_dark = "soft" -- "hard", "medium", "soft"
+            vim.g.gruvbox_italic = 0             -- desactiva cursivas
+            vim.g.gruvbox_transparent_bg = 1     -- fondo transparente
+            -- otras opciones disponibles están en la documentación del plugin
             -- Aplica el tema Cyberdream solo para archivos Java
             vim.api.nvim_create_autocmd("FileType", {
-                pattern = { "c", "cpp" },   -- Se aplica solo a archivos con el tipo "java"
-                require("gruvbox").setup({
-                    terminal_colors = true, -- add neovim terminal colors
-                    undercurl = false,
-                    underline = false,
-                    bold = false,
-                    italic = {
-                        strings = false,
-                        emphasis = false,
-                        comments = false,
-                        operators = false,
-                        folds = false,
-                    },
-                    strikethrough = true,
-                    invert_selection = false,
-                    invert_signs = false,
-                    invert_tabline = false,
-                    invert_intend_guides = false,
-                    inverse = true,    -- invert background for search, diffs, statuslines and errors
-                    contrast = "soft", -- can be "hard", "soft" or empty string
-                    palette_overrides = {
-                    },
-                    overrides = {},
-                    dim_inactive = false,
-                    transparent_mode = false,
-                }),
+                pattern = { "c", "cpp" }, -- Se aplica solo a archivos con el tipo "java"
 
                 callback = function()
                     vim.cmd("colorscheme gruvbox") -- Aplica el tema Cyberdream
@@ -328,7 +291,33 @@ require('lazy').setup({
     --         })
     --     end,
     -- },
+
     -- Configuración para onedarkpro
+    -- {
+    --     'marko-cerovac/material.nvim',
+    --     config = function()
+    --         -- Aplica el tema Cyberdream solo para archivos Java
+    --         vim.api.nvim_create_autocmd("FileType", {
+    --             pattern = "rust",                                -- Se aplica solo a archivos con el tipo "java"
+    --             callback = function()
+    --                 vim.cmd("colorscheme material")              -- Aplica el tema Cyberdream
+    --                 -- Elimina el fondo del tema Cyberdream
+    --                 vim.cmd("highlight Normal guibg=none")       -- Pone el fondo transparente
+    --                 vim.cmd("highlight NonText guibg=none")      -- Elimina fondo en la columna de texto no visible
+    --                 vim.cmd("highlight NormalNC guibg=none")     -- Elimina fondo en ventanas no activas
+    --                 vim.cmd("highlight VertSplit guibg=none")    -- Elimina el fondo del separador vertical
+    --                 vim.cmd("highlight SignColumn guibg=none")   -- Elimina el fondo de la columna de señales (gutter)
+    --                 vim.cmd("highlight LineNr guibg=none")       -- Elimina el fondo de los números de línea
+    --                 vim.cmd("highlight CursorLineNr guibg=none") -- Elimina el fondo del número de línea del cursor
+    --                 -- vim.cmd("highlight Pmenu guibg=none")        -- Elimina el fondo del menú de autocompletado
+    --                 -- vim.cmd("highlight PmenuSbar guibg=none")    -- Elimina el fondo de la barra de desplazamiento del menú
+    --                 -- vim.cmd("highlight PmenuSel guibg=none")     -- Elimina el fondo de la selección en el menú
+    --                 vim.cmd("highlight StatusLine guibg=none")   -- Elimina el fondo de la línea de estado
+    --                 vim.cmd("highlight StatusLineNC guibg=none") -- Elimina el fondo de la línea de estado en ventanas no activas
+    --             end,
+    --         })
+    --     end,
+    -- },
     {
         "olimorris/onedarkpro.nvim",
         config = function()
@@ -561,7 +550,7 @@ require("fidget").setup({})
 require("mason").setup()
 require("mason-lspconfig").setup({
     ensure_installed = {
-        "lua_ls", "rust_analyzer", "gopls", "ts_ls", "zls"
+        "lua_ls", "rust_analyzer", "gopls", "ts_ls", "zls", "pylsp"
     },
     handlers = {
         function(server_name) -- controlador predeterminado (opcional)
@@ -615,6 +604,22 @@ require("mason-lspconfig").setup({
                         }
                     }
                 }
+            }
+        end,
+        ["pylsp"] = function()
+            require("lspconfig").pylsp.setup {
+                capabilities = capabilities,
+                settings = {
+                    pylsp = {
+                        plugins = {
+                            pyflakes = { enabled = false },
+                            pycodestyle = { enabled = false },
+                            pylint = { enabled = true },
+                            black = { enabled = true },
+                            isort = { enabled = true },
+                        },
+                    },
+                },
             }
         end,
         -- ["asm_lsp"] = function()
