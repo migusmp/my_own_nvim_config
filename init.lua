@@ -527,6 +527,10 @@ require('lazy').setup({
     {
         'rafamadriz/friendly-snippets',
     },
+    {
+        'Exafunction/codeium.vim',
+        event = 'BufEnter'
+    },
 })
 
 -- Configuración de LSP y cmp
